@@ -1,0 +1,44 @@
+<app-add-task (onAddTask) = addTask($event);></app-add-task>
+<app-task-item
+  *ngFor="let task of tasks"
+  [task]="task"
+  (onDeleteTask)= "deleteTask(task)"
+  (onToggleReminder) = "toggleReminder(task)"
+
+></app-task-item>
+
+
+
+<!--So how we we do a onToggleReminder
+1.Now here in tasks.component we have a trigger set on action of (onToggleReminder) which is the name of the @Output()
+we defined in the task-item.component. That output which is called (onToggleReminder) gets set to type EventEmitter<Task>
+The dblClick in task-item.component.html which in turn calls onToggle in task-item.ts. Which calls
+this.onToggleReminder.emit(task). That then makes itself get set to on toggleReminder which makes the toggleReminder function
+get called in task.component.ts which updates the task in the task.service and makes the reminder get set correctly in the DB.
+
+
+ This adds the task to the @Output() onToggleReminder: EventEmitter<Task> = new EventEmitter<Task>();
+which then gets called back here...
+
+  in and is set by toggleReminder which knows what we are dealing with bc we pass in task.
+Last. We put the item <app-task-item> into app.component.html which makes this whole component work.
+
+1. we go to task-item.component. This is where our component is made before it is passed into here.
+2. there we set an action listener with () and make it call the function 'onToggle' with an argument of (task).
+task is the object we are clicking on.
+3. onToggle is init in task-item.ts
+4. There we call the function this.onToggleReminder.emit(task)
+5. That only works bc we called made an  @Output() onToggleReminder: EventEmitter<Task> = new EventEmitter<Task>();
+6. What this does is make this component push out information about the task
+7. We then go to task.service. This is where all the DB stuff is. In here we do return this.http.put<Task>(url, task);
+This calls the put method of type <Task> which takes in the url, and the needed task we are updating and updates it as
+put is update. This then changes the color of it.
+
+-->
+
+
+<!--[task] is the prop which is equal to the task from the ngFor. Everything gets added to the prop when the ngFor activates-->
+
+<!--<p *ngFor="let task of tasks">{{task.text}} {{task.day}}</p>-->
+
+

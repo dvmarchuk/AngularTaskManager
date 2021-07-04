@@ -1,0 +1,13 @@
+<header>
+  <h1>{{title}}</h1>
+
+  <!--  this is a header we are reusing. We can add pieces here so the button will be easier to use on other componenets-->
+  <app-button
+    *ngIf="hasRoute('/')"
+    color="{{showAddTask ? 'red' : 'green'}}"
+    text="{{showAddTask ? 'close' : 'add'}}"
+    (btnClick)="toggleAddTask()"
+  ></app-button>
+<!--  here we make an app button and send in info on how we want to use it.-->
+
+</header>
